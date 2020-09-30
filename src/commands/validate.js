@@ -23,6 +23,13 @@ class ValidateCommand extends Command {
         console.log("\n")
         logProductVariantValidationResults({ ok, results })
     }
+
+    async catch(err) {
+        console.log("\n")
+        console.error(chalk.red.bold("    process encountered an error"))
+
+        throw err
+    }
 }
 
 ValidateCommand.description = `Validates Shopify product variants

@@ -41,7 +41,7 @@ class SyncCommand extends Command {
             barIncompleteChar: '\u2591',
         })
         progress.start(variants.length, 0)
-        for (const [index, variant] of variants.entries()) {
+        for (const variant of variants) {
             const product = parseProduct(variant)
             await qb.syncProduct(product)
             progress.increment(1)
@@ -53,7 +53,10 @@ class SyncCommand extends Command {
     }
 
     async catch(err) {
-        console.error(err)
+        console.log("\n")
+        console.error(chalk.red.bold("    process encountered an error"))
+
+        throw err
     }
 }
 
