@@ -1,20 +1,38 @@
 const { Command, flags } = require("@oclif/command")
 const { cli } = require("cli-ux")
 const chalk = require("chalk")
+const fs = require("fs-extra")
+const path = require("path")
 const {
-    QuickBooksEngine,
     ShopifyEngine,
+    QuickBooksEngine,
     validateProductVariants,
     logProductVariantValidationResults,
     parseProduct
 } = require("quickbooks-sync")
-const { shopify: shopify_config, quickbooks: quickbooks_config } = require("../../config")
-
-const sb = new ShopifyEngine(shopify_config)
-const qb = new QuickBooksEngine(quickbooks_config)
 
 class SyncCommand extends Command {
     async run() {
+        const { flags: { debug, sandbox } } = this.parse(SyncCommand)
+
+        const exists = await fs.pathExists(path.join(this.config.configDir, "config.json"))
+        if (!exists) {
+            console.error(chalk.yellow.bold("        could not locate credentials, please run 'qbsync configure'"))
+            return
+        }
+        const config = await fs.readJSON(path.join(this.config.configDir, "config.json"))
+
+        const sb = new ShopifyEngine(config.shopify)
+        const qb = new QuickBooksEngine(sandbox ? {
+            ...config.quickbooks_sandbox,
+            debug,
+            sandbox
+        } : {
+            ...config.quickbooks_production,
+            debug,
+            sandbox
+        })
+
         cli.action.start(chalk.gray.bold("    fetching product variants"))
         const variants = await sb.getAllProductVariants()
         cli.action.stop(chalk.green.bold("done"))
@@ -65,6 +83,9 @@ This command retrieves all product variants from Shopify, validates them
 then syncs them with Quickbooks
 `
 
-SyncCommand.flags = {}
+SyncCommand.flags = {
+    debug: flags.boolean({ char: 'd', default: false }),
+    sandbox: flags.boolean({ char: 's', default: false  })
+}
 
 module.exports = SyncCommand

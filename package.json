@@ -13,7 +13,8 @@
     "@oclif/plugin-help": "^3.2.0",
     "chalk": "^4.1.0",
     "cli-ux": "^5.5.0",
-    "quickbooks-sync": "^1.0.0"
+    "fs-extra": "^9.0.1",
+    "quickbooks-sync": "^2.0.0"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",
