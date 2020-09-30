@@ -1,0 +1,54 @@
+{
+  "name": "qbsync-cli",
+  "description": "A tool to sync products between Shopify and  Quickbooks",
+  "version": "0.0.1",
+  "author": "Ahmed Umran Hussain",
+  "bin": {
+    "qbsync": "./bin/run"
+  },
+  "bugs": "https://github.com/umran/qbsync-cli/issues",
+  "dependencies": {
+    "@oclif/command": "^1.8.0",
+    "@oclif/config": "^1.17.0",
+    "@oclif/plugin-help": "^3.2.0",
+    "chalk": "^4.1.0",
+    "cli-ux": "^5.5.0",
+    "quickbooks-sync": "0.0.4"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.22.2",
+    "eslint": "^5.16.0",
+    "eslint-config-oclif": "^3.1.0",
+    "globby": "^10.0.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/src"
+  ],
+  "homepage": "https://github.com/umran/qbsync-cli",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "ISC",
+  "main": "src/index.js",
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "qbsync",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "repository": "umran/qbsync-cli",
+  "scripts": {
+    "postpack": "rm -f oclif.manifest.json",
+    "posttest": "eslint .",
+    "prepack": "oclif-dev manifest && oclif-dev readme",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md"
+  }
+}
