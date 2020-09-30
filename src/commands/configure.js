@@ -68,8 +68,7 @@ class ConfigureCommand extends Command {
     }
 }
 
-ConfigureCommand.description = `Sets up the tool by configuring the required Shopify and Quickbooks access tokens
-`
+ConfigureCommand.description = `configure credentials for shopify and quickbooks`
 
 ConfigureCommand.flags = {}
 

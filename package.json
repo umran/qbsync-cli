@@ -1,6 +1,6 @@
 {
   "name": "qbsync-cli",
-  "description": "A tool to sync products between Shopify and  Quickbooks",
+  "description": "a tool to sync products between shopify and  quickbooks",
   "version": "1.0.0",
   "author": "Ahmed Umran Hussain",
   "bin": {

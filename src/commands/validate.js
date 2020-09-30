@@ -11,13 +11,17 @@ const {
 
 class ValidateCommand extends Command {
     async run() {
+        cli.action.start(chalk.gray.bold("    fetching credentials"))
         const exists = await fs.pathExists(path.join(this.config.configDir, "config.json"))
         if (!exists) {
+            cli.action.stop(chalk.yellow.bold("incomplete"))
             console.log("\n")
             console.error(chalk.yellow.bold("    could not locate credentials, please run 'qbsync configure'"))
             console.log("\n")
             return
         }
+        cli.action.stop(chalk.green.bold("done"))
+
         const config = await fs.readJSON(path.join(this.config.configDir, "config.json"))
 
         const sb = new ShopifyEngine(config.shopify)
@@ -42,9 +46,9 @@ class ValidateCommand extends Command {
     }
 }
 
-ValidateCommand.description = `Validates Shopify product variants
-This command retrieves all product variants from Shopify and checks for any errors
-such as the existence of duplicate skus, barcodes and fully qualified product names
+ValidateCommand.description = `validate shopify product variants
+this command retrieves all product variants from shopify and checks for any errors
+such as the existence of duplicate skus, barcodes or fully qualified product names
 `
 
 ValidateCommand.flags = {}

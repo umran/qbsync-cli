@@ -15,11 +15,17 @@ class SyncCommand extends Command {
     async run() {
         const { flags: { debug, sandbox } } = this.parse(SyncCommand)
 
+        cli.action.start(chalk.gray.bold("    fetching credentials"))
         const exists = await fs.pathExists(path.join(this.config.configDir, "config.json"))
         if (!exists) {
-            console.error(chalk.yellow.bold("        could not locate credentials, please run 'qbsync configure'"))
+            cli.action.stop(chalk.yellow.bold("incomplete"))
+            console.log("\n")
+            console.error(chalk.yellow.bold("    could not locate credentials, please run 'qbsync configure'"))
+            console.log("\n")
             return
         }
+        cli.action.stop(chalk.green.bold("done"))
+
         const config = await fs.readJSON(path.join(this.config.configDir, "config.json"))
 
         const sb = new ShopifyEngine(config.shopify)
@@ -78,9 +84,9 @@ class SyncCommand extends Command {
     }
 }
 
-SyncCommand.description = `Syncs Shopify product variants with Quickbooks
-This command retrieves all product variants from Shopify, validates them
-then syncs them with Quickbooks
+SyncCommand.description = `sync shopify product variants with quickbooks
+this command retrieves all product variants from shopify, validates them
+then syncs them with quickbooks
 `
 
 SyncCommand.flags = {
